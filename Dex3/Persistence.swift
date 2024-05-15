@@ -9,6 +9,7 @@ import CoreData
 
 struct PersistenceController {
     static let shared = PersistenceController()
+    let container: NSPersistentContainer
 
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
@@ -28,13 +29,13 @@ struct PersistenceController {
         return result
     }()
 
-    let container: NSPersistentContainer
-
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Dex3")
+
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
+
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
