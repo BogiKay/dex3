@@ -12,7 +12,38 @@ struct PokemonDetail: View {
     @EnvironmentObject var pokemon: Pokemon
 
     var body: some View {
-        Text("Hello, World \(pokemon.name!)!")
+        ScrollView {
+            ZStack {
+                Image("normalgrasselectricpoisonfairy")
+                    .resizable()
+                    .scaledToFit()
+                    .shadow(color: /*@START_MENU_TOKEN@*/.black/*@END_MENU_TOKEN@*/, radius: 6)
+                
+                AsyncImage(url: pokemon.sprite) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .padding(.top, 50)
+                        .shadow(color: .black, radius: 6)
+                } placeholder: {
+                    ProgressView()
+                }
+            }
+            
+            HStack() {
+                ForEach(pokemon.types!, id: \.self) { type in
+                    Text(type.capitalized)
+                        .font(.title2)
+                        .shadow(color: .white, radius: 1)
+                        .padding([.top, .bottom], 7)
+                        .padding([.leading, .trailing])
+                        .background(Color(type.capitalized))
+                        .clipShape(.rect(cornerRadius: 50))
+                }
+                Spacer()
+            }
+            .padding()
+        }
     }
 }
 
